@@ -61,5 +61,13 @@
       <label>Fixed number of dots to display</label>
       <default>5</default>
     </entry>
+    <entry name="nextDesktopShortcut" type="String">
+      <label>Global shortcut to switch to next desktop</label>
+      <default></default>
+    </entry>
+    <entry name="prevDesktopShortcut" type="String">
+      <label>Global shortcut to switch to previous desktop</label>
+      <default></default>
+    </entry>
   </group>
 </kcfg>

@@ -10,14 +10,14 @@
         "Description": "GNOME-like virtual desktops switcher for Plasma 6",
         "EnabledByDefault": true,
         "Icon": "preferences-desktop-virtual",
-        "Id": "org.kde.plasma.spatium",
+        "Id": "org.kde.plasma.knomeworkspaces",
         "License": "GPL-3.0+",
-        "Name": "Spatium",
+        "Name": "Knome Workspace Switcher",
         "ServiceTypes": [
             "Plasma/Applet"
         ],
-        "Version": "1.0",
-        "Website": "https://github.com/sakibreza229/org.kde.plasma.spatium"
+        "Version": "2.0",
+        "Website": "https://github.com/sakibreza229/org.kde.plasma.knomeworkspaces"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-Provides": [

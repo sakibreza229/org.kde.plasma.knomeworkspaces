@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Configuration
-PLASMOID_NAME="org.kde.plasma.spatium"
+PLASMOID_NAME="org.kde.plasma.knomeworkspaces"
 INSTALL_DIR="$HOME/.local/share/plasma/plasmoids/$PLASMOID_NAME"
 
 echo "--- Starting Installation for $PLASMOID_NAME ---"
@@ -35,4 +35,4 @@ kbuildsycoca6
 dbus-send --type=method_call --dest=org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.refreshCurrentShell
 
 echo "--- Installation Complete! ---"
-echo "You can now add 'Spatium' to your panel or desktop."
+echo "You can now add 'Knome Workspace Switcher' to your panel or desktop."

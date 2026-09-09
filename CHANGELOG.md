@@ -1,8 +1,8 @@
 # Changelog
 
-All notable changes to the **Spatium** project will be documented in this file.
+All notable changes to the **Knome Workspace Switcher** project will be documented in this file.
 
-## [0.1.0] - 2024-05-22
+## [1.0] - 2024-05-22
 ### Added
 - **Core Logic**: Full implementation of virtual desktop switching using `TaskManager.VirtualDesktopInfo`.
 - **Customization**: Added configuration interface for dot sizes, active width/height, and spacing.
@@ -17,8 +17,19 @@ All notable changes to the **Spatium** project will be documented in this file.
 
 ---
 
-## [Planned for 0.2.0]
-- **Tooltips**: Show desktop names on hover.
+## [2.0] - 2026-09-10
+### Changed
+- **Renamed**: Widget renamed from **Spatium** to **Knome Workspace Switcher** (`org.kde.plasma.spatium` → `org.kde.plasma.knomeworkspaces`).
+
+### Added
+- **KGlobalAccel**: Configurable global keyboard shortcuts for switching to next/previous desktop, set via the widget's configuration dialog.
+- **Middle Click**: Middle-click on the widget now runs a configurable shell command.
+
+### Fixed
+- **Desktop Management**: Corrected `addDesktop`/`removeDesktop` to use the Plasma 6 `/VirtualDesktopManager` D-Bus API (the old `/KWin` methods were removed in Plasma 6).
+
+---
+
+## [Planned for 3.0]
 - **Drag & Drop**: Support moving windows between desktops via the dots.
 - **Multi-screen Support**: Improved behavior for multi-monitor setups.
-- **KGlobalAccel**: Configurable keyboard shortcuts for quick navigation.

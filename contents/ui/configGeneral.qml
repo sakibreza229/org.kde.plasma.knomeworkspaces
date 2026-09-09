@@ -1,5 +1,5 @@
 /**
- * Spatium - GNOME-like virtual desktops switcher for Plasma 6
+ * Knome Workspace Switcher - GNOME-like virtual desktops switcher for Plasma 6
  * SPDX-FileCopyrightText: 2024 Sakib Reza
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -9,6 +9,7 @@ import QtQuick.Controls as QQC2
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import org.kde.kirigami as Kirigami
+import org.kde.kquickcontrols as KQuickControls
 
 Kirigami.FormLayout {
     id: root
@@ -27,6 +28,8 @@ Kirigami.FormLayout {
     property alias cfg_dotShape: dotShapeCombo.currentIndex
     property alias cfg_fixedDotCountEnabled: fixedDotCountCheck.checked
     property alias cfg_fixedDotCount: fixedDotCountSpin.value
+    property alias cfg_nextDesktopShortcut: nextShortcutItem.keySequence
+    property alias cfg_prevDesktopShortcut: prevShortcutItem.keySequence
 
     Kirigami.Heading {
         Kirigami.FormData.isSection: true
@@ -215,5 +218,24 @@ Kirigami.FormLayout {
         Kirigami.FormData.label: i18n("Number of dots:")
         from: 1; to: 20
         enabled: fixedDotCountCheck.checked
+    }
+
+    Kirigami.Heading {
+        Kirigami.FormData.isSection: true
+        text: i18n("Keyboard Shortcuts")
+    }
+
+    KQuickControls.KeySequenceItem {
+        id: nextShortcutItem
+        Kirigami.FormData.label: i18n("Next Desktop:")
+        checkForConflictsAgainst: KQuickControls.ShortcutType.GlobalShortcuts
+        modifierlessAllowed: false
+    }
+
+    KQuickControls.KeySequenceItem {
+        id: prevShortcutItem
+        Kirigami.FormData.label: i18n("Previous Desktop:")
+        checkForConflictsAgainst: KQuickControls.ShortcutType.GlobalShortcuts
+        modifierlessAllowed: false
     }
 }

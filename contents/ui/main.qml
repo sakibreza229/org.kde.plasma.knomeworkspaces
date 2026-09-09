@@ -12,7 +12,6 @@ PlasmoidItem {
     
     preferredRepresentation: fullRepresentation
     compactRepresentation: fullRepresentation
-    Component.onCompleted: updateLayout()
     
     readonly property QtObject virtualDesktopInfo: TaskManager.VirtualDesktopInfo {
         id: virtualDesktopInfo
@@ -34,18 +33,17 @@ PlasmoidItem {
     property int activeHeight: Math.max(dotSize, plasmoid.configuration.activeSizeH ||8)
     property bool wrapOn: plasmoid.configuration.desktopWrapOn !== false
 
-    // We use a helper function to validate the color string
-property bool customColors: plasmoid.configuration.customColorsEnabled || false
+    property bool customColors: plasmoid.configuration.customColorsEnabled || false
 
-property color activeColor: {
-    if (!customColors) return Kirigami.Theme.highlightColor;
-    return plasmoid.configuration.activeColor // QML automatically converts "red" to #FF0000
-}
+    property color activeColor: {
+        if (!customColors) return Kirigami.Theme.highlightColor;
+        return plasmoid.configuration.activeColor
+    }
 
-property color inactiveColor: {
-    if (!customColors) return Kirigami.Theme.textColor;
-    return plasmoid.configuration.inactiveColor
-}
+    property color inactiveColor: {
+        if (!customColors) return Kirigami.Theme.textColor;
+        return plasmoid.configuration.inactiveColor
+    }
 
     property int animDuration: Math.max(0, plasmoid.configuration.animationDuration || 300)
     property bool canAddDesktops: plasmoid.configuration.canAddDesktops !== false
@@ -93,15 +91,19 @@ property color inactiveColor: {
     
     function addDesktop() {
         if (!canAddDesktops) return
-        let call = 'qdbus6 org.kde.KWin /KWin org.kde.KWin.addDesktop 2>/dev/null || ' +
-                   'qdbus org.kde.KWin /KWin org.kde.KWin.addDesktop 2>/dev/null'
+        // Plasma 6: use /VirtualDesktopManager; append at end
+        let pos = virtualDesktopInfo.numberOfDesktops
+        let call = 'qdbus6 org.kde.KWin /VirtualDesktopManager org.kde.KWin.VirtualDesktopManager.createDesktop ' + pos + ' ""'
         executable.connectSource(call)
     }
-    
+
     function removeDesktop() {
         if (!canAddDesktops || desktopCount <= 1) return
-        let call = 'qdbus6 org.kde.KWin /KWin org.kde.KWin.removeDesktop 2>/dev/null || ' +
-                   'qdbus org.kde.KWin /KWin org.kde.KWin.removeDesktop 2>/dev/null'
+        // Plasma 6: removeDesktop takes a UUID string, remove the last desktop
+        let ids = virtualDesktopInfo.desktopIds
+        if (!ids || ids.length === 0) return
+        let lastId = ids[ids.length - 1]
+        let call = 'qdbus6 org.kde.KWin /VirtualDesktopManager org.kde.KWin.VirtualDesktopManager.removeDesktop ' + lastId
         executable.connectSource(call)
     }
 
@@ -112,6 +114,39 @@ property color inactiveColor: {
         onNewData: function(source, data) {
             disconnectSource(source)
         }
+    }
+
+    // --- KGlobalAccel: Global keyboard shortcuts ---
+    PlasmaCore.Action {
+        id: nextDesktopAction
+        text: i18n("Switch to Next Desktop")
+        icon.name: "go-next"
+        shortcut: plasmoid.configuration.nextDesktopShortcut
+        onTriggered: {
+            let target = wrapOn
+                ? ((currentDesktop + 1) % desktopCount)
+                : Math.min(currentDesktop + 1, desktopCount - 1)
+            if (target !== currentDesktop) switchToDesktop(target)
+        }
+    }
+
+    PlasmaCore.Action {
+        id: prevDesktopAction
+        text: i18n("Switch to Previous Desktop")
+        icon.name: "go-previous"
+        shortcut: plasmoid.configuration.prevDesktopShortcut
+        onTriggered: {
+            let target = wrapOn
+                ? ((currentDesktop - 1 + desktopCount) % desktopCount)
+                : Math.max(currentDesktop - 1, 0)
+            if (target !== currentDesktop) switchToDesktop(target)
+        }
+    }
+
+    Component.onCompleted: {
+        updateLayout()
+        plasmoid.setInternalAction("nextDesktop", nextDesktopAction)
+        plasmoid.setInternalAction("prevDesktop", prevDesktopAction)
     }
 
     Item {
@@ -246,14 +281,20 @@ property color inactiveColor: {
         MouseArea {
             id: wheelArea
             anchors.fill: parent
-            acceptedButtons: Qt.NoButton
+            acceptedButtons: Qt.MiddleButton
+            onClicked: function(mouse) {
+                if (mouse.button === Qt.MiddleButton) {
+                    let cmd = plasmoid.configuration.middleButtonCommand
+                    if (cmd && cmd.trim() !== "") executable.connectSource(cmd)
+                }
+            }
             onWheel: function(wheel) {
                 let delta = wheel.angleDelta.y || wheel.angleDelta.x
                 wheelDelta += delta
                 let steps = 0
                 while (wheelDelta >= 120) { wheelDelta -= 120; steps-- }
                 while (wheelDelta <= -120) { wheelDelta += 120; steps++ }
-                
+
                 if (steps !== 0) {
                     let targetDesktop = currentDesktop + steps
                     if (wrapOn) {

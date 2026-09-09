@@ -1,8 +1,8 @@
-# Knome Workspaces — GNOME-style Virtual Desktop Switcher for Plasma 6
+# Knome Workspace Switcher — GNOME-style Virtual Desktop Switcher for Plasma 6
 
-**Knome Workspaces** is a lightweight, GNOME-inspired virtual desktop switcher built specifically for **KDE Plasma 6**. It provides a clean, minimal dot-based interface to navigate your workspaces with support for custom colors, animations, and mouse-wheel scrolling.
+**Knome Workspace Switcher** is a lightweight, GNOME-inspired virtual desktop switcher built specifically for **KDE Plasma 6**. It provides a clean, minimal dot-based interface to navigate your workspaces with support for custom colors, animations, and mouse-wheel scrolling.
 
-![Knome Workspaces Preview](preview.png)
+![Knome Workspace Switcher Preview](preview.png)
 
 ## Features
 
@@ -17,7 +17,7 @@
 * **Plasma 6 Ready**: Uses the latest Kirigami and Plasma 6 APIs.
 
 ## Configuration
-Right-click the widget and select **"Configure Spatium..."** to access all options.
+Right-click the widget and select **"Configure Knome Workspace Switcher..."** to access all options.
 
 | Section | Option | Description |
 |---|---|---|
@@ -32,6 +32,8 @@ Right-click the widget and select **"Configure Spatium..."** to access all optio
 | Behavior | Animation | Transition duration in milliseconds |
 | Behavior | Middle Click Command | Shell command to run on middle click |
 | Behavior | Desktop Management | Allow adding/removing desktops via context menu |
+| Shortcuts | Next Desktop | Global shortcut to switch to the next desktop |
+| Shortcuts | Previous Desktop | Global shortcut to switch to the previous desktop |
 
 ## Installation
 
@@ -53,15 +55,12 @@ Right-click the widget and select **"Configure Spatium..."** to access all optio
 
 2. Copy the entire folder to your Plasma plasmoids directory:
    ```bash
-   cp -r org.kde.plasma.knome-workspaces ~/.local/share/plasma/plasmoids/
+   cp -r . ~/.local/share/plasma/plasmoids/org.kde.plasma.knomeworkspaces
    ```
 3. Refresh the Plasma shell:
    ```bash
    kbuildsycoca6
    ```
-
-## Configuration
-Right-click the widget and select **"Configure Knome Workspaces..."**
 
 ## Requirements
 - KDE Plasma 6.0+
@@ -69,15 +68,3 @@ Right-click the widget and select **"Configure Knome Workspaces..."**
 
 ## License
 This project is licensed under the GPL-3.0+ License.
-```
-
----
-
-## Key Changes Made:
-
-| Before | After |
-|--------|-------|
-| Spatium | **Knome Workspaces** |
-| `org.kde.plasma.spatium` | `org.kde.plasma.knome-workspaces` |
-| "Configure Spatium..." | **"Configure Knome Workspaces..."** |
-| Spatium Preview | **Knome Workspaces Preview** |
