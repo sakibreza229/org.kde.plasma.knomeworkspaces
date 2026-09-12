@@ -18,13 +18,13 @@ Kirigami.FormLayout {
     property alias cfg_activeSizeW: activeWidthSpin.value
     property alias cfg_activeSizeH: activeHeightSpin.value
     property alias cfg_desktopWrapOn: wrapCheck.checked
-    property alias cfg_middleButtonCommand: middleCommand.text
     property alias cfg_customColorsEnabled: customColorsCheck.checked
     property string cfg_activeColor
     property string cfg_inactiveColor
     property alias cfg_animationDuration: animationSpin.value
     property alias cfg_canAddDesktops: addDesktopsCheck.checked
-    property alias cfg_spacingFactor: spacingSpin.realValue
+    property real cfg_spacingFactor: 0.1
+    property alias cfg_horizontalMargin: horizontalMarginSpin.value
     property alias cfg_dotShape: dotShapeCombo.currentIndex
     property alias cfg_fixedDotCountEnabled: fixedDotCountCheck.checked
     property alias cfg_fixedDotCount: fixedDotCountSpin.value
@@ -39,24 +39,30 @@ Kirigami.FormLayout {
     QQC2.ComboBox {
         id: dotShapeCombo
         Kirigami.FormData.label: i18n("Shape:")
-        model: [i18n("Circle"), i18n("Square"), i18n("Desktop Name")]
+        model: [i18n("Circle"), i18n("Square"), i18n("Desktop Name"), i18n("Icon"), i18n("Desktop Number")]
         Component.onCompleted: currentIndex = plasmoid.configuration.dotShape || 0
     }
 
     QQC2.SpinBox {
         id: dotSizeSpin
-        Kirigami.FormData.label: i18n("Dot Size (px):")
-        from: 8; to: 16
-        enabled: dotShapeCombo.currentIndex < 2
+        Kirigami.FormData.label: dotShapeCombo.currentIndex < 2 ? i18n("Dot Size (px):") : (dotShapeCombo.currentIndex === 3 ? i18n("Icon Size (px):") : i18n("Font Size (px):"))
+        from: 8; to: 24
     }
 
     QQC2.SpinBox {
         id: spacingSpin
         Kirigami.FormData.label: i18n("Spacing Factor:")
-        from: 1; to: 6; stepSize: 1
-        property real realValue: value / 10.0
+        from: 1; to: 9; stepSize: 1
+        value: Math.round((root.cfg_spacingFactor || 0.1) * 10)
+        onValueModified: root.cfg_spacingFactor = value / 10.0
         textFromValue: (value, locale) => Number(value / 10.0).toLocaleString(locale, 'f', 1)
         valueFromText: (text, locale) => Math.round(Number.fromLocaleString(locale, text) * 10)
+    }
+
+    QQC2.SpinBox {
+        id: horizontalMarginSpin
+        Kirigami.FormData.label: i18n("Side Margin (px):")
+        from: 0; to: 10; stepSize: 1
     }
 
     QQC2.SpinBox {
@@ -74,9 +80,9 @@ Kirigami.FormLayout {
     }
 
     Kirigami.Heading {
-    Kirigami.FormData.isSection: true
-    text: i18n("Colors")
-}
+        Kirigami.FormData.isSection: true
+        text: i18n("Colors")
+    }
 
     QQC2.CheckBox {
         id: customColorsCheck
@@ -85,6 +91,7 @@ Kirigami.FormLayout {
     }
 
     function normalizeToHex(colorString) {
+        if (!colorString) return '#ffffff'
         var c = Qt.color(colorString)
         if (c.valid) {
             var r = Math.round(c.r * 255).toString(16).padStart(2, '0')
@@ -102,14 +109,14 @@ Kirigami.FormLayout {
 
         Rectangle {
             width: 24; height: 24; radius: 4
-            color: Qt.color(cfg_activeColor).valid ? cfg_activeColor : "#ffffff"
-            border.color: Kirigami.Theme.separatorColor
+            color: (cfg_activeColor && Qt.color(cfg_activeColor).valid) ? cfg_activeColor : "#3daee9"
+            border.color: Kirigami.Theme.separatorColor || "#55808080"
             border.width: 1
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    activeColorDialog.selectedColor = Qt.color(cfg_activeColor)
+                    activeColorDialog.selectedColor = Qt.color(cfg_activeColor || "#3daee9")
                     activeColorDialog.open()
                 }
             }
@@ -134,14 +141,14 @@ Kirigami.FormLayout {
 
         Rectangle {
             width: 24; height: 24; radius: 4
-            color: Qt.color(cfg_inactiveColor).valid ? cfg_inactiveColor : "#808080"
-            border.color: Kirigami.Theme.separatorColor
+            color: (cfg_inactiveColor && Qt.color(cfg_inactiveColor).valid) ? cfg_inactiveColor : "#808080"
+            border.color: Kirigami.Theme.separatorColor || "#55808080"
             border.width: 1
             MouseArea {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    inactiveColorDialog.selectedColor = Qt.color(cfg_inactiveColor)
+                    inactiveColorDialog.selectedColor = Qt.color(cfg_inactiveColor || "#808080")
                     inactiveColorDialog.open()
                 }
             }
@@ -194,12 +201,6 @@ Kirigami.FormLayout {
         from: 0; to: 1000; stepSize: 50
     }
 
-    QQC2.TextField {
-        id: middleCommand
-        Kirigami.FormData.label: i18n("Middle Click Command:")
-        placeholderText: "e.g. krunner"
-        Layout.fillWidth: true
-    }
 
     QQC2.CheckBox {
         id: addDesktopsCheck

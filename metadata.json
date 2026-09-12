@@ -16,7 +16,7 @@
         "ServiceTypes": [
             "Plasma/Applet"
         ],
-        "Version": "2.0",
+        "Version": "2.3",
         "Website": "https://github.com/sakibreza229/org.kde.plasma.knomeworkspaces"
     },
     "X-Plasma-API-Minimum-Version": "6.0",

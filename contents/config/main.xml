@@ -12,6 +12,14 @@
     <entry name="spacingFactor" type="Double">
       <label>Spacing factor between dots</label>
       <default>0.1</default>
+      <min>0.1</min>
+      <max>0.9</max>
+    </entry>
+    <entry name="horizontalMargin" type="Int">
+      <label>Horizontal margin (left and right) in pixels</label>
+      <default>0</default>
+      <min>0</min>
+      <max>10</max>
     </entry>
     <entry name="activeSizeW" type="Int">
       <label>Width of active desktop dot</label>
@@ -24,10 +32,6 @@
     <entry name="desktopWrapOn" type="Bool">
       <label>Wrap around when scrolling past ends</label>
       <default>true</default>
-    </entry>
-    <entry name="middleButtonCommand" type="String">
-      <label>Command to run on middle click</label>
-      <default></default>
     </entry>
     <entry name="customColorsEnabled" type="Bool">
       <label>Use custom colors for dots</label>
@@ -50,7 +54,7 @@
       <default>true</default>
     </entry>
     <entry name="dotShape" type="Int">
-      <label>Shape of desktop dots (0=circle, 1=square, 2=name)</label>
+      <label>Shape of desktop dots (0=circle, 1=square, 2=name, 3=icon, 4=number)</label>
       <default>0</default>
     </entry>
     <entry name="fixedDotCountEnabled" type="Bool">

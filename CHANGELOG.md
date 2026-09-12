@@ -23,10 +23,27 @@ All notable changes to the **Knome Workspace Switcher** project will be document
 
 ### Added
 - **KGlobalAccel**: Configurable global keyboard shortcuts for switching to next/previous desktop, set via the widget's configuration dialog.
-- **Middle Click**: Middle-click on the widget now runs a configurable shell command.
 
 ### Fixed
 - **Desktop Management**: Corrected `addDesktop`/`removeDesktop` to use the Plasma 6 `/VirtualDesktopManager` D-Bus API (the old `/KWin` methods were removed in Plasma 6).
+
+---
+
+## [2.3] - 2026-09-12
+### Added
+- **Side Margins**: Added configurable horizontal margin (0 to 10px) for the left and right sides in the appearance configuration.
+- **Extended Spacing Factor**: Increased maximum spacing factor to `0.9` (from `0.6`) with bidirectional SpinBox binding.
+- **Icon Appearance**: New shape mode that displays a symbolic desktop workspace icon for each virtual desktop with active/inactive theme tinting.
+- **Desktop Number Appearance**: New shape mode that displays compact `D1`, `D2`, `D3`, … labels, bolded on the active desktop.
+
+### Removed
+- **Middle Click**: Completely removed the middle-click command execution feature and configuration.
+- **Install Script**: Removed `install.sh` in favor of standard KDE Plasma packaging (`kpackagetool6`).
+
+### Fixed
+- **Mouse Click Capture**: Ensured the wheel scroll area does not steal left-click events from desktop indicators.
+- **Theme Color Fallbacks**: Added proper Plasma/Kirigami theme color inheritance and fallbacks to prevent dark theme contrast issues.
+- **Config Dialog Warnings**: Cleaned up undefined QColor and property alias warnings in the configuration dialog.
 
 ---
 
