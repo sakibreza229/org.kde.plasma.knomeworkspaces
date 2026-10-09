@@ -54,7 +54,7 @@ PlasmoidItem {
         return plasmoid.configuration.inactiveColor || "#808080"
     }
 
-    property int animDuration: Math.max(0, plasmoid.configuration.animationDuration || 300)
+    property int animDuration: Math.max(0, plasmoid.configuration.animationDuration !== undefined ? plasmoid.configuration.animationDuration : 300)
     property bool canAddDesktops: plasmoid.configuration.canAddDesktops !== false
     property int dotShape: plasmoid.configuration.dotShape || 0
 
