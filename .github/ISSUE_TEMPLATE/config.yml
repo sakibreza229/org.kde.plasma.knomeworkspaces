@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ideas, questions & general feedback
+    url: https://github.com/sakibreza229/org.kde.plasma.knomeworkspaces/discussions
+    about: Not sure it's a bug or a feature request? Start a discussion.
