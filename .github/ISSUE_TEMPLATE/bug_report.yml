@@ -1,0 +1,29 @@
+name: Bug report
+description: Something isn't working as expected
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: Include what you expected and, if possible, a screenshot.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+  - type: input
+    id: widget
+    attributes:
+      label: Widget version
+      placeholder: "v2.3"
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Plasma version and distro
+      placeholder: "Plasma 6.x, Arch / Fedora / ..."
+    validations:
+      required: true
