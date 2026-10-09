@@ -1,0 +1,26 @@
+name: Feature request
+description: Suggest what you want in the next version
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      placeholder: I want to be able to...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What would you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds you've tried
+  - type: input
+    id: plasma
+    attributes:
+      label: Plasma version
+      placeholder: "6.x"
